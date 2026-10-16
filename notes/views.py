@@ -1,5 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+
+from .models import Note
 
 
 def home(request):
-	return render(request, 'notes/home.html')
+	if request.method == 'POST':
+		content = request.POST.get('content', '').strip()
+		if content:
+			Note.objects.create(content=content)
+		return redirect('home')
+
+	notes = Note.objects.order_by('-id')
+	return render(request, 'notes/home.html', {'notes': notes})

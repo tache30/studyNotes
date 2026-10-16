@@ -21,12 +21,51 @@
         h1 {
             color: #28634f;
         }
+
+        li {
+            margin: 12px 0;
+            line-height: 1.5;
+        }
+
+        form {
+            display: grid;
+            gap: 10px;
+            margin: 24px 0;
+        }
+
+        textarea {
+            padding: 10px;
+            font: inherit;
+        }
+
+        button {
+            width: fit-content;
+            padding: 10px 16px;
+            border: 0;
+            background: #28634f;
+            color: white;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <main>
         <h1>StudyNotes</h1>
         <p>Bun venit! Aici vom organiza notițele tale.</p>
+        <form method="post">
+            {% csrf_token %}
+            <label for="content">Scrie o notiță</label>
+            <textarea id="content" name="content" rows="4" required></textarea>
+            <button type="submit">Salvează</button>
+        </form>
+        <h2>Notițele tale</h2>
+        <ul>
+            {% for note in notes %}
+                <li>{{ note.content }}</li>
+            {% empty %}
+                <li>Nu ai notițe încă.</li>
+            {% endfor %}
+        </ul>
     </main>
 </body>
 </html>
